@@ -34,6 +34,8 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/agendamentos" element={<Appointments />} />
               <Route path="/agendar" element={<Booking />} />
+              {/* ⬇️ NOVA LINHA - Redireciona /agendar/demo para /agendar */}
+              <Route path="/agendar/demo" element={<Navigate to="/agendar" replace />} />
               <Route path="/profissionais" element={<Professionals />} />
               <Route path="/servicos" element={<Services />} />
               <Route path="/configuracoes" element={<Settings />} />
