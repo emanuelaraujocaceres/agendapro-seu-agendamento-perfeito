@@ -143,6 +143,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (authError) throw authError;
       if (!authData.user) throw new Error('Erro ao criar usuário');
 
+      // ⭐⭐ SOLUÇÃO: Aguardar a sessão ser estabelecida ⭐⭐
+      // Se não tiver session, espera 1.5 segundos
+      if (!authData.session) {
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      }
+
       // Generate unique slug
       const { data: slugData } = await supabase.rpc('generate_unique_slug', { company_name: companyName });
       const slug = slugData || companyName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
@@ -199,6 +205,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       return { error: null };
     } catch (error) {
+      console.error('SignUp error:', error);
       return { error: error as Error };
     }
   };
